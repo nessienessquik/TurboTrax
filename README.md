@@ -1,2 +1,2 @@
 # TurboTrax
-A habit tracking app for busy people
+A habit tracking app for life's rollercoasters

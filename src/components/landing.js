@@ -1,6 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Link } from "react-router-dom";
+// import { BrowserRouter as Link } from "react-router-dom";
+import Register from './registration-form';
 
+import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -53,7 +55,6 @@ export default function Landing() {
         <CssBaseline />
 
         <Grid item xs={12} sm={8} md={6} className={classes.content} >
-          <Paper>
 
           <Typography component="h1" className={classes.logo}>TurboTrax</Typography>
           <Typography component="h3" className={classes.strapline}>Smart Tracking for Life's Rollercoasters</Typography>
@@ -83,20 +84,16 @@ export default function Landing() {
             </Button>
 
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
+              <Grid item >
+                <Link href='./register' variant="body2">
+                  Sign-Up for your free account here
                 </Link>
               </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+
             </Grid>
             
             </form>
-            </Paper>
+
         </Grid>
 
       </Grid>

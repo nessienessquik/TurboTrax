@@ -7,15 +7,10 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh',
-    backgroundImage: 'url(https://images.unsplash.com/photo-1531148502260-2920d70c8ed4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2851&q=80)',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
   },
   input: {
       backgroundColor: '#82c4decf',
@@ -53,14 +48,13 @@ export default function Landing() {
         <CssBaseline />
 
         <Grid item xs={12} sm={8} md={6} className={classes.content} >
-          <Paper>
-
           <Typography component="h1" className={classes.logo}>TurboTrax</Typography>
-          <Typography component="h3" className={classes.strapline}>Smart Tracking for Life's Rollercoasters</Typography>
+          <Typography component="h3" className={classes.strapline}>Sign-up for a free account</Typography>
 
             <form className={classes.form} noValidate>
 
-              <TextField variant="outlined" margin="normal" required fullWidth id="username" label="Username" autoComplete="username" autoFocus className={classes.input}></TextField>
+              <TextField variant="outlined" margin="normal" required fullWidth id="name" label="Name" autoComplete="name" autoFocus className={classes.input}></TextField>
+              <TextField variant="outlined" margin="normal" required fullWidth id="email" label="E-Mail Address" autoComplete="E-mail" autoFocus className={classes.input}></TextField>
               <TextField
               variant="outlined"
               margin="normal"
@@ -79,24 +73,11 @@ export default function Landing() {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              Sign-Up
             </Button>
-
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
             
             </form>
-            </Paper>
+
         </Grid>
 
       </Grid>

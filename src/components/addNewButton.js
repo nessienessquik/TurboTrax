@@ -4,10 +4,25 @@ import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
+import AddCircle from '@material-ui/icons/AddCircle';
 
 const useStyles = makeStyles(theme => ({
   typography: {
     padding: theme.spacing(2),
+  },
+  root: {
+    // display: 'flex',
+    // justifyContent: 'center',
+    // alignItems: 'flex-end',
+  },
+  icon: {
+    margin: theme.spacing(2),
+  },
+  iconHover: {
+    margin: theme.spacing(2),
+    '&:hover': {
+      color: 'red',
+    },
   },
 }));
 
@@ -28,9 +43,8 @@ export default function AddNewButton() {
 
   return (
     <div>
-      <Button aria-describedby={id} variant="contained" onClick={handleClick}>
-        Add New Habit
-      </Button>
+
+      <AddCircle onClick={handleClick}></AddCircle>
       <Popover
         id={id}
         open={open}

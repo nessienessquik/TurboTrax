@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 
 import AddNewButton from './addNewButton.js';
-
+import EditButton from './editButton.js';
 // const useStyles = makeStyles(theme => ({
 //   root: {
  
@@ -19,20 +19,27 @@ class Habits extends React.Component {
     super(props);
     this.state = {
       isToggleOn: true,
-      habitsArray: [ "Ran 10 Miles", "Got 8+ Hours of Sleep", "Cooked Dinner", "Meditated", "Practiced Guitar", "Drank Water"]
+      habitsArray: ["Ran 10 Miles", "Got 8+ Hours of Sleep", "Cooked Dinner", "Meditated", "Practiced Guitar", "Drank Water"],
+      // habitsArray: [],
     };
   }
 
   render() {
     let habitsArray = this.state.habitsArray;
-    let habitsObject = habitsArray.map((item, index) => {
-    return <Button key={index} onClick={() => {
-
-      this.setState(state => ({
-        isToggleOn: !state.isToggleOn
-      }));
-    }}>{item}</Button> 
-    });
+    let habitsObject;
+    
+    if (habitsArray.length <= 0){
+      habitsObject = <div>Please add habits below.</div>
+    } else {
+      habitsObject = habitsArray.map((item, index) => {
+        return <Button key={index} onClick={() => {
+    
+          this.setState(state => ({
+            isToggleOn: !state.isToggleOn
+          }));
+        }}>{item}</Button> 
+        });
+    }
 
     return (
       
@@ -40,6 +47,7 @@ class Habits extends React.Component {
         <CssBaseline />
           {habitsObject}
           <AddNewButton />
+          <EditButton />
       </Grid>
 
     );

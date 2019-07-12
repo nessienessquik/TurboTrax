@@ -1,5 +1,4 @@
 import React from 'react';
-import Habits from './habits.js';
 // import { BrowserRouter as Link } from "react-router-dom";
 
 // import Link from '@material-ui/core/Link';
@@ -9,8 +8,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import KeyboardBackspace from '@material-ui/icons/KeyboardBackspace';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,12 +42,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Main() {
+export default function Landing() {
 
   // Date display
-  let todayObject = new Date();
-  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  let todayString = todayObject.toLocaleDateString('default', options);
+  // let todayObject = new Date();
+  // var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  // let todayString = todayObject.toLocaleDateString('default', options);
 
     const classes = useStyles();
 
@@ -56,16 +56,12 @@ export default function Main() {
       <Grid container spacing={0} direction="column" alignItems="center" justify="center" component="main" className={classes.root} >
         <CssBaseline />
 
-        <Grid item xs={12} sm={8} md={6} className={classes.content} component={Paper} >
+        <Grid item xs={12} sm={8} md={6} className={classes.content}component={Paper}>
 
-          <Typography component="h1" className={classes.logo}>TurboTrax</Typography>
-          <Typography component="h3" className={classes.strapline}>Good Morning, Joe</Typography>
-          <Typography component="h4" className={classes.strapline}>What did you do today?</Typography>
-
-          <Grid>
-            <Typography>{todayString}</Typography>
-            <Habits />
-            <Button><Link href='./calendar'>View Calendar</Link></Button>
+          <Grid item xs={12} sm={8} md={5} elevation={6} square>
+            <Typography component="h1" className={classes.logo}>TurboTrax</Typography>
+            <Typography component="h1" className={classes.logo}>Calendar</Typography>
+            <Button href='./main'><KeyboardBackspace>Back to Habits</KeyboardBackspace></Button>
           </Grid>
 
         </Grid>

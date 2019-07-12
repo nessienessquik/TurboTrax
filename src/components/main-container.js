@@ -1,16 +1,26 @@
 import React from 'react';
+import Habits from './habits.js';
 // import { BrowserRouter as Link } from "react-router-dom";
 
-import Button from '@material-ui/core/Button';
+// import Link from '@material-ui/core/Link';
+// import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+import FormGroup from '@material-ui/core/RadioGroup';
+// import Checkbox from '@material-ui/core/RadioGroup';
+
+
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh',
+    backgroundImage: 'url(https://images.unsplash.com/photo-1528872042734-8f50f9d3c59b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80)',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
   },
   input: {
       backgroundColor: '#82c4decf',
@@ -37,8 +47,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-
 export default function Landing() {
+
+  // Date display
+  let todayObject = new Date();
+  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  let todayString = todayObject.toLocaleDateString('default', options);
 
     const classes = useStyles();
 
@@ -48,35 +62,15 @@ export default function Landing() {
         <CssBaseline />
 
         <Grid item xs={12} sm={8} md={6} className={classes.content} >
+
           <Typography component="h1" className={classes.logo}>TurboTrax</Typography>
-          <Typography component="h3" className={classes.strapline}>Sign-up for a free account</Typography>
+          <Typography component="h3" className={classes.strapline}>Good Morning, Joe</Typography>
+          <Typography component="h4" className={classes.strapline}>What did you do today?</Typography>
 
-            <form className={classes.form} noValidate>
-
-              <TextField variant="outlined" margin="normal" required fullWidth id="name" label="Name" autoComplete="name" autoFocus className={classes.input}></TextField>
-              <TextField variant="outlined" margin="normal" required fullWidth id="email" label="E-Mail Address" autoComplete="E-mail" autoFocus className={classes.input}></TextField>
-              <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password" className={classes.input}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign-Up
-            </Button>
-            
-            </form>
+          <Grid>
+            <Typography>{todayString}</Typography>
+            <Habits />
+          </Grid>
 
         </Grid>
 

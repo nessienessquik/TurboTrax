@@ -1,86 +1,169 @@
-import React from 'react';
-// import { BrowserRouter as Link } from "react-router-dom";
-
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: '100vh',
-  },
-  input: {
-      backgroundColor: '#82c4decf',
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  logo: {
-    fontFamily: 'Quantico',
-    fontWeight: '700',
-    fontSize: '5em',
-    lineHeight: '85%',
-    textAlign: 'center',
-  },
-  strapline: {
-    fontFamily: 'Poppins',
-    fontWeight: '400',
-    fontSize: '2em',
-    textAlign: 'center',
-  },
-}));
+import React, { Component } from "react";
+import { Auth } from "aws-amplify";
 
 
-export default function Register() {
+export default class Signup extends Component {
+  constructor(props) {
+    super(props);
 
-    const classes = useStyles();
+    this.state = {
+      isLoading: false,
+      name: "",
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      confirmationCode: "",
+      newUser: null,
+    };
 
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  validateForm() {
     return (
-
-      <Grid container spacing={0} direction="column" alignItems="center" justify="center" component="main" className={classes.root} >
-        <CssBaseline />
-
-        <Grid item xs={12} sm={8} md={6} className={classes.content} >
-          <Typography component="h1" className={classes.logo}>TurboTrax</Typography>
-          <Typography component="h3" className={classes.strapline}>Sign-up for a free account</Typography>
-
-            <form className={classes.form} noValidate>
-
-              <TextField variant="outlined" margin="normal" required fullWidth id="name" label="Name" autoComplete="name" autoFocus className={classes.input}></TextField>
-              <TextField variant="outlined" margin="normal" required fullWidth id="email" label="E-Mail Address" autoComplete="E-mail" autoFocus className={classes.input}></TextField>
-              <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password" className={classes.input}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign-Up
-            </Button>
-            
-            </form>
-
-        </Grid>
-
-      </Grid>
+      this.state.email.length > 0 &&
+      this.state.password.length > 0 &&
+      this.state.password === this.state.confirmPassword
     );
+  }
 
+  validateConfirmationForm() {
+    return this.state.confirmationCode.length > 0;
+  }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  }
+
+  handleSubmit = async event => {
+    event.preventDefault();
+  
+    this.setState({ isLoading: true });
+  
+    try {
+      let email = this.state.email;
+      let name = this.state.name
+      const newUser = await Auth.signUp({
+
+  
+
+        username: this.state.username,
+        password: this.state.password,
+        attributes: {
+          email,          // optional
+          name, // optional - E.164 number convention
+        },
+      });
+      this.setState({
+        newUser
+      });
+    } catch (e) {
+      alert(e.message);
+    }
+  
+    this.setState({ isLoading: false });
+  }
+    
+    handleConfirmationSubmit = async event => {
+      event.preventDefault();
+    
+      this.setState({ isLoading: true });
+    
+      try {
+        await Auth.confirmSignUp(this.state.username, this.state.confirmationCode);
+        await Auth.signIn(this.state.username, this.state.password);
+    
+        this.props.userHasAuthenticated(true);
+        this.props.history.push("/");
+      } catch (e) {
+        alert(e.message);
+        this.setState({ isLoading: false });
+      }
+    }
+    
+
+  renderConfirmationForm() {
+    return (
+      <form onSubmit={this.handleConfirmationSubmit}>
+        <label>Confirmation Code</label>
+        <input
+            className=""
+            type="text"
+            value={this.state.confirmationCode}
+            id="confirmationCode"
+            name="confirmationCode"
+            placeholder="Enter Confirmation Code"
+            onChange={e => this.handleChange(e)}
+            required
+          />
+    
+        <p>Please check your email for the code.</p>
+
+        <input className="" type="submit" value="Submit" />
+
+      </form>
+    );
+  }
+
+  renderForm() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+          <input
+            className=""
+            type="text"
+            value={this.state.name}
+            id="name"
+            name="name"
+            placeholder="Your Name"
+            onChange={e => this.handleChange(e)}
+            required
+          />
+          <input
+            className=""
+            type="text"
+            value={this.state.username}
+            id="username"
+            name="username"
+            placeholder="Username"
+            onChange={e => this.handleChange(e)}
+            required
+          />
+          <input
+            className=""
+            type="text"
+            value={this.state.email}
+            id="email"
+            name="email"
+            placeholder="E-Mail Address"
+            onChange={e => this.handleChange(e)}
+            required
+          />
+          <input
+            className=""
+            type="password"
+            value={this.state.password}
+            id="password"
+            name="password"
+            placeholder="Password"
+            onChange={e => this.handleChange(e)}
+            required
+          />
+          <input className="" type="submit" value="Submit" />
+      </form>
+    );
+  }
+
+  render() {
+    return (
+      <div className="Signup">
+        {this.state.newUser === null
+          ? this.renderForm()
+          : this.renderConfirmationForm()}
+      </div>
+    );
+  }
 }

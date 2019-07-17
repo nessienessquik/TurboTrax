@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Button from '@material-ui/core/Button';
+import { Auth } from "aws-amplify";
+
 
 
 export default class Landing extends Component {
@@ -10,7 +8,7 @@ export default class Landing extends Component {
     super(props);
 
     this.state = {
-      email: "",
+      username: "",
       password: ""
     };
   }
@@ -25,39 +23,42 @@ export default class Landing extends Component {
     });
   }
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault();
+  
+    try {
+      await Auth.signIn(this.state.username, this.state.password);
+      this.props.userHasAuthenticated(true);
+      this.props.history.push("/main");
+    } catch (e) {
+      alert(e.message);
+    }
   }
+  
 
   render() {
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="email" bsSize="large">
-            <FormControlLabel>Email</FormControlLabel>
-            <FormControl
-              autoFocus
-              type="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup controlId="password" bsSize="large">
-            <FormControlLabel>Password</FormControlLabel>
-            <FormControl
-              value={this.state.password}
-              onChange={this.handleChange}
-              type="password"
-            />
-          </FormGroup>
-          <Button
-            block
-            bsSize="large"
-            disabled={!this.validateForm()}
-            type="submit"
-          >
-            Login
-          </Button>
+          <input
+            className=""
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Username"
+            onChange={e => this.handleChange(e)}
+            required
+          />
+          <input
+            className=""
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            onChange={e => this.handleChange(e)}
+            required
+          />
+          <input className="" type="submit" value="Submit" />
         </form>
       </div>
     );

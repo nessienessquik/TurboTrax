@@ -21,6 +21,7 @@ class Main extends Component{
 
   userHasAuthenticated = authenticated => {
     this.setState({ isAuthenticated: authenticated });
+
   }
 
   render() {
@@ -37,7 +38,6 @@ class Main extends Component{
 
         <Typography component="h1" className="logo">TurboTrax</Typography>
         <Typography component="h3" className="strapline">Good Morning, Joe</Typography>
-        <Typography component="h4" className="strapline">What did you do today?</Typography>
 
         <Grid>
           <Typography>{todayString}</Typography>

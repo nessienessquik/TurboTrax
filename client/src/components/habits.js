@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { API } from "aws-amplify";
 
 
@@ -22,15 +22,15 @@ class Habits extends React.Component {
     super(props);
     this.state = {
       isToggleOn: true,
-      // habitsArray: ["Ran 10 Miles", "Got 8+ Hours of Sleep", "Cooked Dinner", "Meditated", "Practiced Guitar", "Drank Water"],
       habitsArray: [],
+      notes: []
     };
   }
 
   async componentDidMount() {
-    if (!this.props.isAuthenticated) {
-      return;
-    }
+    // if (!this.props.isAuthenticated) {
+    //   return;
+    // }
   
     try {
       const notes = await this.notes();
@@ -38,45 +38,83 @@ class Habits extends React.Component {
     } catch (e) {
       alert(e);
     }
-  
     this.setState({ isLoading: false });
 
-    const testing = this.notes();
-    console.log(testing);
-    console.log("testing");
-
+    // console.log(this.state.notes[0].content);
   }
   
   notes() {
     return API.get("turbo", "/turbo");
   }
   
+  // renderNotesList(notes) {
+
+  //     habitsObject = notes.map((item, index) => {
+  //       return <Button key={index} onClick={() => {
+    
+  //         this.setState(state => ({
+  //           isToggleOn: !state.isToggleOn
+  //         }));
+  //       }}>{item}</Button> 
+  //       });
+  // }
+  
+
+  renderLander() {
+    return (
+      <div className="lander">
+        <h3>you have no tracks. add one here.</h3>
+        <NewHabit />
+      </div>
+    );
+  }
+
+  renderNotes() {
+    let habitsArray = this.state.notes;
+
+    let habitsObject = habitsArray.map((item, index) => {
+      return <Button key={index} onClick={() => {
+        this.setState(state => ({
+          isToggleOn: !state.isToggleOn
+        }));
+      }}>{item.content}</Button> 
+      });
+
+    return (
+      <div className="notes">
+        <h3>What did you do today?</h3>
+        {habitsObject}
+        {/* <li>
+          {this.renderNotesList(this.state.notes)}
+        </li> */}
+      </div>
+    );
+  }
 
 
   render() {
     
-    let habitsArray = this.state.habitsArray;
-    let habitsObject;
+    // let habitsArray = this.state.habitsArray;
+    // let habitsObject;
     
-    if (habitsArray.length <= 0){
-      habitsObject = <NewHabit />
-    } else {
-      habitsObject = habitsArray.map((item, index) => {
-        return <Button key={index} onClick={() => {
+    // if (habitsArray.length <= 0){
+    //   habitsObject = <NewHabit />
+    // } else {
+    //   habitsObject = habitsArray.map((item, index) => {
+    //     return <Button key={index} onClick={() => {
     
-          this.setState(state => ({
-            isToggleOn: !state.isToggleOn
-          }));
-        }}>{item}</Button> 
-        });
-    }
+    //       this.setState(state => ({
+    //         isToggleOn: !state.isToggleOn
+    //       }));
+    //     }}>{item}</Button> 
+    //     });
+    // }
 
     return (
       
       <Grid>
-        <CssBaseline />
-          {habitsObject}
-          <EditButton />
+        {this.renderNotes()}
+        {/* {this.props.isAuthenticated ? this.renderNotes() : this.renderLander()} */}
       </Grid>
 
     );

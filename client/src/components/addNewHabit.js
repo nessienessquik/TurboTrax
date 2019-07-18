@@ -34,7 +34,6 @@ class NewHabit extends Component {
       await this.createHabit({
         content: this.state.content
       });
-      console.log(this.props.history);
       this.props.history.push("/");
     } catch (e) {
       alert(e);

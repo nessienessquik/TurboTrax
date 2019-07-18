@@ -1,14 +1,19 @@
 .app {
   font-size: 16px;
+  background: linear-gradient(#10a3c5, #c9d0e0);
+  height: 100vh;
 }
 
-.root {
-  height: '100vh';
-  background: 'linear-gradient(#10a3c5, #c9d0e0)';
+.landing {
+
+}
+
+.MuiFormControl-root {
+  display: block;
 }
 
 .input {
-    background-Color: '#82c4decf';
+    background-Color: #82c4decf;
 }
 
 .form {
@@ -16,16 +21,16 @@
 }
 
 .logo {
-  font-Family: 'Quantico';
-  font-Weight: '700';
-  font-Size: '5em';
-  line-Height: '85%';
-  text-Align: 'center';
+  font-Family: Quantico;
+  font-Weight: 700;
+  font-Size: 5em;
+  line-Height: 85%;
+  text-Align: center;
 }
 
 .strapline {
-  font-Family: 'Poppins';
-  font-Weight: '400';
-  font-Size: '2em';
-  text-Align: 'center';
+  font-Family: Poppins;
+  font-Weight: 400;
+  font-Size: 2em;
+  text-Align: center;
 }

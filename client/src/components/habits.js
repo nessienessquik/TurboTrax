@@ -10,11 +10,6 @@ import Grid from '@material-ui/core/Grid';
 import NewHabit from './addNewHabit.js';
 import EditButton from './editButton.js';
 
-// const useStyles = makeStyles(theme => ({
-//   root: {
- 
-//   },
-// }));
 
 class Habits extends React.Component {
 
@@ -28,10 +23,7 @@ class Habits extends React.Component {
   }
 
   async componentDidMount() {
-    // if (!this.props.isAuthenticated) {
-    //   return;
-    // }
-  
+
     try {
       const notes = await this.notes();
       this.setState({ notes });
@@ -40,26 +32,12 @@ class Habits extends React.Component {
     }
     this.setState({ isLoading: false });
 
-    // console.log(this.state.notes[0].content);
   }
   
   notes() {
     return API.get("turbo", "/turbo");
   }
   
-  // renderNotesList(notes) {
-
-  //     habitsObject = notes.map((item, index) => {
-  //       return <Button key={index} onClick={() => {
-    
-  //         this.setState(state => ({
-  //           isToggleOn: !state.isToggleOn
-  //         }));
-  //       }}>{item}</Button> 
-  //       });
-  // }
-  
-
   renderLander() {
     return (
       <div className="lander">
@@ -77,6 +55,7 @@ class Habits extends React.Component {
         this.setState(state => ({
           isToggleOn: !state.isToggleOn
         }));
+
       }}>{item.content}</Button> 
       });
 
@@ -84,9 +63,7 @@ class Habits extends React.Component {
       <div className="notes">
         <h3>What did you do today?</h3>
         {habitsObject}
-        {/* <li>
-          {this.renderNotesList(this.state.notes)}
-        </li> */}
+
       </div>
     );
   }
@@ -98,7 +75,6 @@ class Habits extends React.Component {
       
       <Grid>
         {this.state.notes.length > 0 ? this.renderNotes() : this.renderLander()}
-        {/* {this.props.isAuthenticated ? this.renderNotes() : this.renderLander()} */}
       </Grid>
 
     );

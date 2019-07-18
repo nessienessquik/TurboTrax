@@ -55,7 +55,7 @@ class App extends Component {
     
       return (
         !this.state.isAuthenticating &&
-        <Container maxWidth="md">
+        <Container maxWidth="lg" className="app">
           {/* <div>
             <Switch>
                 {this.state.isAuthenticated

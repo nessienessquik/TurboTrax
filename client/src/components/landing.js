@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Auth } from "aws-amplify";
-
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 
 export default class Landing extends Component {
@@ -38,29 +40,33 @@ export default class Landing extends Component {
 
   render() {
     return (
-      <div className="Login">
+      <Grid container direction="column" justify="center" alignItems="center" className="landing">
+        <h1>TurboTrax</h1>
+        <h3>A Daily Habit Tracking App</h3>
+
         <form onSubmit={this.handleSubmit}>
-          <input
-            className=""
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Username"
-            onChange={e => this.handleChange(e)}
-            required
-          />
-          <input
-            className=""
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Password"
-            onChange={e => this.handleChange(e)}
-            required
-          />
-          <input className="" type="submit" value="Submit" />
+          <TextField
+          id="username"
+          label="Username"
+          value={this.state.username}
+          onChange={e => this.handleChange(e)}
+          margin="normal"
+          variant="filled"
+          className="landingForm"
+        />
+          <TextField
+          id="password"
+          label="Password"
+          value={this.state.password}
+          onChange={e => this.handleChange(e)}
+          margin="normal"
+          variant="filled"
+          className="landingForm"
+        />
+
+          <Button variant="contained" type="submit" value="Submit" className="landingForm">Log-In</Button>
         </form>
-      </div>
+      </Grid>
     );
   }
 }

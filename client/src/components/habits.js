@@ -93,27 +93,11 @@ class Habits extends React.Component {
 
 
   render() {
-    
-    // let habitsArray = this.state.habitsArray;
-    // let habitsObject;
-    
-    // if (habitsArray.length <= 0){
-    //   habitsObject = <NewHabit />
-    // } else {
-    //   habitsObject = habitsArray.map((item, index) => {
-    //     return <Button key={index} onClick={() => {
-    
-    //       this.setState(state => ({
-    //         isToggleOn: !state.isToggleOn
-    //       }));
-    //     }}>{item}</Button> 
-    //     });
-    // }
 
     return (
       
       <Grid>
-        {this.renderNotes()}
+        {this.state.notes.length > 0 ? this.renderNotes() : this.renderLander()}
         {/* {this.props.isAuthenticated ? this.renderNotes() : this.renderLander()} */}
       </Grid>
 

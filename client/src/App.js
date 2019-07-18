@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import { Auth } from "aws-amplify";
 
 
 import Routes from "./routes";
+import Landing from "./components/landing"
+import Main from "./components/main-container"
+
 import './css/App.css';
-import Landing from './components/landing.js';
-import Calendar from './components/calendar.js';
-import RegistrationForm from './components/registration-form.js';
-import Main from './components/main-container.js';
-import ErrorMsg from './components/error.js';
+
+import Container from '@material-ui/core/Container';
 
 class App extends Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class App extends Component {
       isAuthenticated: false
     };
   }
+  
   async componentDidMount() {
     try {
       await Auth.currentSession();
@@ -45,9 +46,6 @@ class App extends Component {
     this.props.history.push("/");
   }
   
-  
-  
-
   render() {
 
       const childProps = {
@@ -57,24 +55,28 @@ class App extends Component {
     
       return (
         !this.state.isAuthenticating &&
-        <div className="App container">
-
-              <div>
+        <Container maxWidth="md">
+          {/* <div>
+            <Switch>
                 {this.state.isAuthenticated
-                  ? <button onClick={this.handleLogout}>Logout</button>
-                  : <Fragment>
-                      <Link to="/register">
-                        <button>Register</button>
-                      </Link>
-                      <Link to="/">
-                        <button>Login</button>
-                      </Link>
-                    </Fragment>
+                  // ? <button onClick={this.handleLogout}>Logout</button>
+                  // : <Fragment>
+                  //     <Link to="/register">
+                  //       <button>Register</button>
+                  //     </Link>
+                  //     <Link to="/">
+                  //       <button>Login</button>
+                  //     </Link>
+                  //   </Fragment>
+
+                  // ? <Landing />
+                  // : <Main />
                 }
-              </div>
+              </Switch>
+            </div> */}
 
           <Routes childProps={childProps} />
-        </div>
+        </Container>
       );
     }
   }

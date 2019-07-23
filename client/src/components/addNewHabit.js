@@ -42,7 +42,7 @@ class NewHabit extends Component {
   }
   
   createHabit(habit) {
-    return API.post("turbo", "/turbo", {
+    return API.post("turbotrax", "/turbotrax", {
       body: habit
     });
   }

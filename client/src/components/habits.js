@@ -35,7 +35,7 @@ class Habits extends React.Component {
   }
   
   notes() {
-    return API.get("turbo", "/turbo");
+    return API.get("turbotrax", "/turbotrax");
   }
   
   renderLander() {

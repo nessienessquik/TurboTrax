@@ -9,7 +9,6 @@ export default class Signup extends Component {
     this.state = {
       isLoading: false,
       name: "",
-      username: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -51,10 +50,9 @@ export default class Signup extends Component {
 
   
 
-        username: this.state.username,
+        username: this.state.email,
         password: this.state.password,
         attributes: {
-          email,          // optional
           name, // optional - E.164 number convention
         },
       });
@@ -74,8 +72,8 @@ export default class Signup extends Component {
       this.setState({ isLoading: true });
     
       try {
-        await Auth.confirmSignUp(this.state.username, this.state.confirmationCode);
-        await Auth.signIn(this.state.username, this.state.password);
+        await Auth.confirmSignUp(this.state.email, this.state.confirmationCode);
+        await Auth.signIn(this.state.email, this.state.password);
     
         this.props.userHasAuthenticated(true);
         this.props.history.push("/");
@@ -125,20 +123,10 @@ export default class Signup extends Component {
           <input
             className=""
             type="text"
-            value={this.state.username}
-            id="username"
-            name="username"
-            placeholder="Username"
-            onChange={e => this.handleChange(e)}
-            required
-          />
-          <input
-            className=""
-            type="text"
             value={this.state.email}
             id="email"
             name="email"
-            placeholder="E-Mail Address"
+            placeholder="E-Mail Address (will be used as Username)"
             onChange={e => this.handleChange(e)}
             required
           />

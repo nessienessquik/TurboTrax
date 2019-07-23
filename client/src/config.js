@@ -1,17 +1,17 @@
 export default {
     s3: {
       REGION: "us-east-1",
-      BUCKET: "turbo"
+      BUCKET: "turbotrax-bucket"
     },
     apiGateway: {
       REGION: "us-east-1",
-      URL: "https://hozfvpz7w4.execute-api.us-east-1.amazonaws.com/prod"
+      URL: "https://mmyzt7xrqc.execute-api.us-east-1.amazonaws.com/prod"
     },
     cognito: {
       REGION: "us-east-1",
-      USER_POOL_ID: "us-east-1_Md38qtGE0",
-      APP_CLIENT_ID: "2cejt0bnr7jege61dcgv12cfum",
-      IDENTITY_POOL_ID: "us-east-1:400e604e-9190-4339-a2c1-930587f2a8f6"
+      USER_POOL_ID: "us-east-1_UaMKBBv4s",
+      APP_CLIENT_ID: "10fk5fa7u1du1b8l5p0fcpuhmj",
+      IDENTITY_POOL_ID: "us-east-1:095bf789-639c-42dd-823c-e2795804ca2b"
     }
   };
   

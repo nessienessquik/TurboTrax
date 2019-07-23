@@ -43,7 +43,7 @@ functions:
     handler: create.main
     events:
       - http:
-          path: turbo
+          path: turbotrax
           method: post
           cors: true
           authorizer: aws_iam
@@ -54,7 +54,7 @@ functions:
     handler: get.main
     events:
       - http:
-          path: turbo/{id}
+          path: turbotrax/{id}
           method: get
           cors: true
           authorizer: aws_iam
@@ -65,7 +65,7 @@ functions:
     handler: list.main
     events:
       - http:
-          path: turbo
+          path: turbotrax
           method: get
           cors: true
           authorizer: aws_iam
@@ -76,7 +76,7 @@ functions:
     handler: update.main
     events:
       - http:
-          path: turbo/{id}
+          path: turbotrax/{id}
           method: put
           cors: true
           authorizer: aws_iam
@@ -87,7 +87,7 @@ functions:
     handler: delete.main
     events:
       - http:
-          path: turbo/{id}
+          path: turbotrax/{id}
           method: delete
           cors: true
           authorizer: aws_iam

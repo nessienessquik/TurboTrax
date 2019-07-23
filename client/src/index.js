@@ -23,7 +23,7 @@ Amplify.configure({
     API: {
       endpoints: [
         {
-          name: "turbo",
+          name: "turbotrax",
           endpoint: config.apiGateway.URL,
           region: config.apiGateway.REGION
         },

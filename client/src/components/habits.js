@@ -18,7 +18,8 @@ class Habits extends React.Component {
     this.state = {
       isToggleOn: true,
       habitsArray: [],
-      notes: []
+      notes: [],
+      updatedArray: []
     };
   }
 
@@ -51,12 +52,33 @@ class Habits extends React.Component {
     let habitsArray = this.state.notes;
 
     let habitsObject = habitsArray.map((item, index) => {
+
       return <Button key={index} onClick={() => {
-        this.setState(state => ({
-          isToggleOn: !state.isToggleOn
-        }));
+  
+        if(this.state.updatedArray.includes(item.content) === true){
+
+          let thisHabit = item.content;
+        
+          let filteredArray = this.state.updatedArray.filter(foo => foo !== thisHabit);
+          this.setState({updatedArray: filteredArray, isToggleOn: "false"}, function(){
+
+            console.log(this.state.isToggleOn);
+            console.log(this.state.updatedArray);
+
+          });
+
+        } else if (this.state.updatedArray.includes(item.content) === false) {
+
+          this.setState({ updatedArray: [...this.state.updatedArray, item.content], isToggleOn: "true" }, function() {
+
+            console.log(this.state.isToggleOn);
+            console.log(this.state.updatedArray);
+
+          })
+        }
 
       }}>{item.content}</Button> 
+
       });
 
     return (

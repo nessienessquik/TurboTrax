@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { API } from "aws-amplify";
 
-
-import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 // import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
 import NewHabit from './addNewHabit.js';
 import EditButton from './editButton.js';
+import HabitButton from './habitButton.js';
 
 
 class Habits extends React.Component {
@@ -16,30 +15,29 @@ class Habits extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isToggleOn: true,
-      habitsArray: [],
-      notes: [],
-      updatedArray: []
+      // array of data objects from API
+      apiObject: []
     };
   }
 
   async componentDidMount() {
 
     try {
-      const notes = await this.notes();
-      this.setState({ notes });
+      //creates an apiObject from the data returned from turbotrax-db
+      const apiObject = await this.list();
+      this.setState({ apiObject: apiObject });    
     } catch (e) {
       alert(e);
     }
-    this.setState({ isLoading: false });
 
   }
   
-  notes() {
+  list() {
+    //api request to get data from turbotrax-db
     return API.get("turbotrax", "/turbotrax");
   }
   
-  renderLander() {
+  renderEmptyTrax() {
     return (
       <div className="lander">
         <h3>you have no tracks. add one here.</h3>
@@ -48,38 +46,59 @@ class Habits extends React.Component {
     );
   }
 
-  renderNotes() {
-    let habitsArray = this.state.notes;
+  renderTrax() {
+    let habitsArray = this.state.apiObject;
 
     let habitsObject = habitsArray.map((item, index) => {
 
-      return <Button key={index} onClick={() => {
-  
-        if(this.state.updatedArray.includes(item.content) === true){
+      return <HabitButton key={index} habitName={item.content} />
 
-          let thisHabit = item.content;
+    });
+
+    // let habitsObject = habitsArray.map((item, index) => {
+
+    //   let toggleClass = this.state.isToggleOn.toString();
+
+    //   return <Button key={index} className={toggleClass} onClick={() => {
+
+    //             if(this.state.updatedArray.includes(item.content) === true){
+
+    //       let thisHabit = item.content;
         
-          let filteredArray = this.state.updatedArray.filter(foo => foo !== thisHabit);
-          this.setState({updatedArray: filteredArray, isToggleOn: "false"}, function(){
+    //       let filteredUpdateArray = this.state.updatedArray.filter(foo => foo !== thisHabit);
+    //       let updatedToggleArray = this.state.toggleArray.map((value, index) => {
+    //         console.log(index);
+    //         console.log(value);
+    //       });
 
-            console.log(this.state.isToggleOn);
-            console.log(this.state.updatedArray);
+          
+    //       this.setState({updatedArray: filteredUpdateArray, updatedToggle: updatedToggleArray, isToggleOn: "false",}, function(){
 
-          });
+    //         console.log(this.state.isToggleOn);
+    //         console.log(this.state.updatedArray);
+    //         console.log(this.state.updatedToggle)
 
-        } else if (this.state.updatedArray.includes(item.content) === false) {
+    //       });
 
-          this.setState({ updatedArray: [...this.state.updatedArray, item.content], isToggleOn: "true" }, function() {
+    //     } else if (this.state.updatedArray.includes(item.content) === false) {
 
-            console.log(this.state.isToggleOn);
-            console.log(this.state.updatedArray);
+    //       Object.keys(item).map(function(active, index) {
+    //         item.active = "true";
+    //       });
 
-          })
-        }
+    //       this.setState({ updatedArray: [...this.state.updatedArray, item.content], isToggleOn: "true", updatedToggle: [...this.state.updatedToggle, item.active] }, function() {
 
-      }}>{item.content}</Button> 
+    //         // console.log(this.state.isToggleOn);
+    //         // console.log(this.state.updatedArray);
+    //         // console.log(this.state.updatedToggle);
+    //         console.log(item);
 
-      });
+    //       })
+    //     }
+  
+      // }}>{item.content}</Button> 
+
+      // });
 
     return (
       <div className="notes">
@@ -90,14 +109,13 @@ class Habits extends React.Component {
     );
   }
 
-
   render() {
 
     return (
       
       <Grid>
-        {this.state.notes.length > 0 ? this.renderNotes() : this.renderLander()}
-      </Grid>
+      {this.state.apiObject.length > 0 ? this.renderTrax() : this.renderEmptyTrax()}
+    </Grid>
 
     );
   }

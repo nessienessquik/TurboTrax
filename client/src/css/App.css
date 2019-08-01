@@ -34,3 +34,7 @@
   font-Size: 2em;
   text-Align: center;
 }
+
+button.MuiButtonBase-root.MuiButton-root.true.MuiButton-text {
+  background-color: blueviolet;
+}

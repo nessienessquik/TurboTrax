@@ -8,10 +8,6 @@
 
 }
 
-.MuiFormControl-root {
-  display: block;
-}
-
 .input {
     background-Color: #82c4decf;
 }
@@ -35,6 +31,10 @@
   text-Align: center;
 }
 
-button.MuiButtonBase-root.MuiButton-root.true.MuiButton-text {
-  background-color: blueviolet;
+.true {
+  background-color: violet;
+}
+
+.false {
+  background-color: transparent;
 }

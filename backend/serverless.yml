@@ -33,58 +33,59 @@ provider:
       Resource: "arn:aws:dynamodb:us-east-1:*:*"
 
 functions:
-  # Defines an HTTP API endpoint that calls the main function in create.js
+  # Defines an HTTP API endpoint that calls the main function in createCategory.js
+  # this is for track categories db
   # - path: url path is /notes
   # - method: POST request
   # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
   #     domain api call
   # - authorizer: authenticate using the AWS IAM role
-  create:
-    handler: create.main
+  createCategory:
+    handler: createCategory.main
     events:
       - http:
           path: turbotrax
           method: post
           cors: true
           authorizer: aws_iam
-  get:
-    # Defines an HTTP API endpoint that calls the main function in get.js
+  getCategory:
+    # Defines an HTTP API endpoint that calls the main function in getCategory.js
     # - path: url path is /notes/{id}
     # - method: GET request
-    handler: get.main
+    handler: getCategory.main
     events:
       - http:
           path: turbotrax/{id}
           method: get
           cors: true
           authorizer: aws_iam
-  list:
+  listCategory:
     # Defines an HTTP API endpoint that calls the main function in list.js
     # - path: url path is /notes
     # - method: GET request
-    handler: list.main
+    handler: listCategory.main
     events:
       - http:
           path: turbotrax
           method: get
           cors: true
           authorizer: aws_iam
-  update:
+  updateCategory:
     # Defines an HTTP API endpoint that calls the main function in update.js
     # - path: url path is /notes/{id}
     # - method: PUT request
-    handler: update.main
+    handler: updateCategory.main
     events:
       - http:
           path: turbotrax/{id}
           method: put
           cors: true
           authorizer: aws_iam
-  delete:
+  deleteCategory:
     # Defines an HTTP API endpoint that calls the main function in delete.js
     # - path: url path is /notes/{id}
     # - method: DELETE request
-    handler: delete.main
+    handler: deleteCategory.main
     events:
       - http:
           path: turbotrax/{id}

@@ -11,7 +11,8 @@ class NewHabit extends Component {
 
     this.state = {
       isLoading: null,
-      content: ""
+      content: "",
+      attachment: "habit"
     };
   }
 
@@ -28,13 +29,12 @@ class NewHabit extends Component {
   handleSubmit = async event => {
     event.preventDefault();
 
-    this.setState({ isLoading: true });
-  
     try {
       await this.createHabit({
-        content: this.state.content
+        content: this.state.content,
+        attachment: this.state.attachment
       });
-      this.props.history.push("/");
+      alert("habit created")
     } catch (e) {
       alert(e);
       this.setState({ isLoading: false });

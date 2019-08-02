@@ -2,7 +2,6 @@ import React from 'react';
 import { API } from "aws-amplify";
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-// import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
 import NewHabit from './addNewHabit.js';
@@ -23,11 +22,16 @@ class Habits extends React.Component {
   async componentDidMount() {
 
     try {
-      //creates an apiObject from the data returned from turbotrax-db
+      //creates an apiObject from the data returned from turbotrax-categories
       const apiObject = await this.list();
       this.setState({ apiObject: apiObject });    
+
+      console.log(apiObject);
+
     } catch (e) {
+
       alert(e);
+
     }
 
   }
@@ -35,6 +39,8 @@ class Habits extends React.Component {
   list() {
     //api request to get data from turbotrax-db
     return API.get("turbotrax", "/turbotrax");
+    // return ["testing"];
+
   }
   
   renderEmptyTrax() {
@@ -49,74 +55,33 @@ class Habits extends React.Component {
   renderTrax() {
     let habitsArray = this.state.apiObject;
 
+    console.log(habitsArray);
+
     let habitsObject = habitsArray.map((item, index) => {
 
-      return <HabitButton key={index} habitName={item.content} />
+      return <HabitButton 
+              key={index} 
+              habitName={item.content} 
+              habitTrackId={item.trackId}
+              habitUserId={item.userId}
+              />
 
     });
 
-    // let habitsObject = habitsArray.map((item, index) => {
-
-    //   let toggleClass = this.state.isToggleOn.toString();
-
-    //   return <Button key={index} className={toggleClass} onClick={() => {
-
-    //             if(this.state.updatedArray.includes(item.content) === true){
-
-    //       let thisHabit = item.content;
-        
-    //       let filteredUpdateArray = this.state.updatedArray.filter(foo => foo !== thisHabit);
-    //       let updatedToggleArray = this.state.toggleArray.map((value, index) => {
-    //         console.log(index);
-    //         console.log(value);
-    //       });
-
-          
-    //       this.setState({updatedArray: filteredUpdateArray, updatedToggle: updatedToggleArray, isToggleOn: "false",}, function(){
-
-    //         console.log(this.state.isToggleOn);
-    //         console.log(this.state.updatedArray);
-    //         console.log(this.state.updatedToggle)
-
-    //       });
-
-    //     } else if (this.state.updatedArray.includes(item.content) === false) {
-
-    //       Object.keys(item).map(function(active, index) {
-    //         item.active = "true";
-    //       });
-
-    //       this.setState({ updatedArray: [...this.state.updatedArray, item.content], isToggleOn: "true", updatedToggle: [...this.state.updatedToggle, item.active] }, function() {
-
-    //         // console.log(this.state.isToggleOn);
-    //         // console.log(this.state.updatedArray);
-    //         // console.log(this.state.updatedToggle);
-    //         console.log(item);
-
-    //       })
-    //     }
-  
-      // }}>{item.content}</Button> 
-
-      // });
-
     return (
-      <div className="notes">
+      <div className="">
         <h3>What did you do today?</h3>
         {habitsObject}
-
+        <NewHabit />
       </div>
     );
   }
 
   render() {
-
     return (
-      
       <Grid>
       {this.state.apiObject.length > 0 ? this.renderTrax() : this.renderEmptyTrax()}
-    </Grid>
-
+      </Grid>
     );
   }
 }

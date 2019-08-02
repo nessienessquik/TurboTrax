@@ -9,15 +9,15 @@ class habitButton extends Component {
     this.state = {
         isToggleOn: "false",
         content: this.props.habitName,
-        trackId: this.props.habitTrackId,
+        categoryId: this.props.categoryId,
         userId: this.props.habitUserId,
-        attachment: "trax"
+        type: "data"
     };
   }
 
   createTrax(trax) {
       console.log(trax);
-    return API.post("turbotrax", "/turbotrax", {
+    return API.post("turbotrax", "/turbotrax/track", {
       body: trax
     });
   }

@@ -44,7 +44,7 @@ functions:
     handler: createCategory.main
     events:
       - http:
-          path: turbotrax
+          path: turbotrax/category
           method: post
           cors: true
           authorizer: aws_iam
@@ -55,7 +55,7 @@ functions:
     handler: getCategory.main
     events:
       - http:
-          path: turbotrax/{id}
+          path: turbotrax/category/{id}
           method: get
           cors: true
           authorizer: aws_iam
@@ -66,7 +66,7 @@ functions:
     handler: listCategory.main
     events:
       - http:
-          path: turbotrax
+          path: turbotrax/category
           method: get
           cors: true
           authorizer: aws_iam
@@ -77,7 +77,7 @@ functions:
     handler: updateCategory.main
     events:
       - http:
-          path: turbotrax/{id}
+          path: turbotrax/category/{id}
           method: put
           cors: true
           authorizer: aws_iam
@@ -88,7 +88,68 @@ functions:
     handler: deleteCategory.main
     events:
       - http:
-          path: turbotrax/{id}
+          path: turbotrax/category/{id}
+          method: delete
+          cors: true
+          authorizer: aws_iam
+
+
+  # Defines an HTTP API endpoint that calls the main function in createTrack.js
+  # this is for track data db
+  # - path: url path is /notes
+  # - method: POST request
+  # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
+  #     domain api call
+  # - authorizer: authenticate using the AWS IAM role
+  createTrack:
+    handler: createTrack.main
+    events:
+      - http:
+          path: turbotrax/track
+          method: post
+          cors: true
+          authorizer: aws_iam
+  getTrack:
+    # Defines an HTTP API endpoint that calls the main function in getTrack.js
+    # - path: url path is /notes/{id}
+    # - method: GET request
+    handler: getTrack.main
+    events:
+      - http:
+          path: turbotrax/track/{id}
+          method: get
+          cors: true
+          authorizer: aws_iam
+  listTrack:
+    # Defines an HTTP API endpoint that calls the main function in listTrack.js
+    # - path: url path is /notes
+    # - method: GET request
+    handler: listTrack.main
+    events:
+      - http:
+          path: turbotrax/track
+          method: get
+          cors: true
+          authorizer: aws_iam
+  updateTrack:
+    # Defines an HTTP API endpoint that calls the main function in updateTrack.js
+    # - path: url path is /notes/{id}
+    # - method: PUT request
+    handler: updateTrack.main
+    events:
+      - http:
+          path: turbotrax/track/{id}
+          method: put
+          cors: true
+          authorizer: aws_iam
+  deleteTrack:
+    # Defines an HTTP API endpoint that calls the main function in deleteTrack.js
+    # - path: url path is /notes/{id}
+    # - method: DELETE request
+    handler: deleteTrack.main
+    events:
+      - http:
+          path: turbotrax/track/{id}
           method: delete
           cors: true
           authorizer: aws_iam

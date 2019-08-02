@@ -12,7 +12,7 @@ class NewHabit extends Component {
     this.state = {
       isLoading: null,
       content: "",
-      attachment: "habit"
+      type: "category"
     };
   }
 
@@ -32,7 +32,7 @@ class NewHabit extends Component {
     try {
       await this.createHabit({
         content: this.state.content,
-        attachment: this.state.attachment
+        type: this.state.type
       });
       alert("habit created")
     } catch (e) {

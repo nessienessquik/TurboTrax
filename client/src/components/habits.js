@@ -37,9 +37,8 @@ class Habits extends React.Component {
   }
   
   list() {
-    //api request to get data from turbotrax-db
-    return API.get("turbotrax", "/turbotrax");
-    // return ["testing"];
+    //api request to get data from turbotrax-categories
+    return API.get("turbotrax", "/turbotrax/category");
 
   }
   
@@ -62,7 +61,7 @@ class Habits extends React.Component {
       return <HabitButton 
               key={index} 
               habitName={item.content} 
-              habitTrackId={item.trackId}
+              categoryId={item.trackId}
               habitUserId={item.userId}
               />
 

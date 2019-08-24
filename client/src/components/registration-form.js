@@ -64,7 +64,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [newUser, setNewUser] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [confirmationCode, setconfirmationCode] = useState("");
+  const [confirmationCode, setConfirmationCode] = useState("");
   const [isValidated, setisValidated] = useState(false);
 
   const handleConfirmationSubmit = async event => {
@@ -87,7 +87,7 @@ export default function SignUp() {
     console.log("call for confirmation form");
     return (
       <form onSubmit={handleConfirmationSubmit}>
-        <label>Confirmation Code</label>
+        <label> Entet Confirmation Code:</label>
         <input
             className=""
             type="text"
@@ -95,7 +95,9 @@ export default function SignUp() {
             id="confirmationCode"
             name="confirmationCode"
             placeholder="Enter Confirmation Code"
-            onChange={e => this.handleChange(e)}
+            onChange={(e) => {
+              setConfirmationCode(e.target.value);
+            }}
             required
           />
     
@@ -107,7 +109,74 @@ export default function SignUp() {
     );
   }
 
-
+  const renderForm = () => {
+    return (
+      <form className={classes.form} noValidate onSubmit={handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            autoComplete="name"
+            name="name"
+            variant="outlined"
+            required
+            fullWidth
+            id="name"
+            label="Name"
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            autoFocus
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+        </Grid>
+      </Grid>
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        color="primary"
+        className={classes.submit}
+      >
+        Sign Up
+      </Button>
+      <Grid container justify="flex-end">
+        <Grid item>
+          <Link href="/" variant="body2">
+            Already have an account? Sign in
+          </Link>
+        </Grid>
+      </Grid>
+    </form>
+    );
+  }
   const handleSubmit = async event => {
 
     if (event) {
@@ -148,70 +217,9 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="name"
-                name="name"
-                variant="outlined"
-                required
-                fullWidth
-                id="name"
-                label="Name"
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="/" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
+        {newUser === null
+          ? renderForm()
+          : renderConfirmationForm()}
       </div>
       <Box mt={5}>
         <Copyright />

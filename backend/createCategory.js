@@ -11,6 +11,7 @@ export async function main(event, context) {
       trackId: uuid.v1(),
       content: data.content,
       type: data.type,
+      status: data.status,
       createdAt: Date.now()
     }
   };

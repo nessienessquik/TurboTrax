@@ -11,7 +11,9 @@ class habitButton extends Component {
         content: this.props.habitName,
         categoryId: this.props.categoryId,
         userId: this.props.habitUserId,
-        type: "data"
+        dataId: "",
+        type: "data",
+        status: "inactive"
     };
   }
 
@@ -22,42 +24,58 @@ class habitButton extends Component {
     });
   }
 
+  deleteTrax(trax) {
+    return API.del("turbotrax", `/track/${this.state.dataId}`);
+  }
+
   render() {
 
     return (
       
-        <button className={this.state.isToggleOn} onClick={() => {
+        <button className={this.state.status} onClick={() => {
 
             // post / remove tracks from database
 
-            if (this.state.isToggleOn === "false") {
-
+            if (this.state.status === "inactive") {
                 // establishes toggle for css
-                this.setState({isToggleOn: "true"}, function(){ });
-
+                this.setState({status: "active"}, function(){ });
                  // post tracks from database
-
                 let postTrack = async event => {
-                
                     try {
-                    
                       await this.createTrax(this.state);
-
                     } catch (e) {
-
                       alert(e);
-
                     }
                   }
 
                 postTrack();
 
             } else {
-
                 // establishes toggle for css
-                this.setState({isToggleOn: "false"}, function(){ });
+                this.setState({status: "inactive"}, function(){ });
+                
+                let handleDelete = async event => {
+                
+                  const confirmed = window.confirm(
+                    "Are you sure you want to delete this note?"
+                  );
+                
+                  if (!confirmed) {
+                    return;
+                  }
 
-                // remove tracks from database
+                  try {
+                    await this.deleteTrax();
+
+                  } catch (e) {
+                    alert(e);
+
+                  }
+                }
+                
+                handleDelete()
+                
+
             }
 
         }}>{this.state.content}</button>

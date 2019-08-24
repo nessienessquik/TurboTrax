@@ -1,97 +1,97 @@
-import React, { Component } from "react";
+import React, {useState} from 'react';
 import { Auth } from "aws-amplify";
+import { Redirect } from 'react-router';
 
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 
-export default class Signup extends Component {
-  constructor(props) {
-    super(props);
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://material-ui.com/">
+        TurboTrax
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'. Built with '}
+      <Link color="inherit" href="https://material-ui.com/">
+        Material-UI.
+      </Link>
+    </Typography>
+  );
+}
 
-    this.state = {
-      isLoading: false,
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      confirmationCode: "",
-      newUser: null,
-    };
+const useStyles = makeStyles(theme => ({
+  '@global': {
+    body: {
+      backgroundColor: theme.palette.common.white,
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+export default function SignUp() {
+  const classes = useStyles();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [newUser, setNewUser] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmationCode, setconfirmationCode] = useState("");
+  const [isValidated, setisValidated] = useState(false);
 
-  validateForm() {
-    return (
-      this.state.email.length > 0 &&
-      this.state.password.length > 0 &&
-      this.state.password === this.state.confirmPassword
-    );
-  }
-
-  validateConfirmationForm() {
-    return this.state.confirmationCode.length > 0;
-  }
-
-  handleChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
-  }
-
-  handleSubmit = async event => {
+  const handleConfirmationSubmit = async event => {
     event.preventDefault();
   
-    this.setState({ isLoading: true });
-  
     try {
-      let email = this.state.email;
-      let name = this.state.name
-      const newUser = await Auth.signUp({
-
+      await Auth.confirmSignUp(email, confirmationCode);
+      await Auth.signIn(email, password);
   
+      setisValidated(true);
 
-        username: this.state.email,
-        password: this.state.password,
-        attributes: {
-          name, // optional - E.164 number convention
-        },
-      });
-      this.setState({
-        newUser
-      });
     } catch (e) {
       alert(e.message);
-    }
-  
-    this.setState({ isLoading: false });
-  }
-    
-    handleConfirmationSubmit = async event => {
-      event.preventDefault();
-    
-      this.setState({ isLoading: true });
-    
-      try {
-        await Auth.confirmSignUp(this.state.email, this.state.confirmationCode);
-        await Auth.signIn(this.state.email, this.state.password);
-    
-        this.props.userHasAuthenticated(true);
-        this.props.history.push("/");
-      } catch (e) {
-        alert(e.message);
-        this.setState({ isLoading: false });
-      }
-    }
-    
 
-  renderConfirmationForm() {
+    }
+  }
+  
+
+  const renderConfirmationForm = () => {
+    console.log("call for confirmation form");
     return (
-      <form onSubmit={this.handleConfirmationSubmit}>
+      <form onSubmit={handleConfirmationSubmit}>
         <label>Confirmation Code</label>
         <input
             className=""
             type="text"
-            value={this.state.confirmationCode}
+            value={confirmationCode}
             id="confirmationCode"
             name="confirmationCode"
             placeholder="Enter Confirmation Code"
@@ -107,51 +107,115 @@ export default class Signup extends Component {
     );
   }
 
-  renderForm() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-          <input
-            className=""
-            type="text"
-            value={this.state.name}
-            id="name"
-            name="name"
-            placeholder="Your Name"
-            onChange={e => this.handleChange(e)}
-            required
-          />
-          <input
-            className=""
-            type="text"
-            value={this.state.email}
-            id="email"
-            name="email"
-            placeholder="E-Mail Address (will be used as Username)"
-            onChange={e => this.handleChange(e)}
-            required
-          />
-          <input
-            className=""
-            type="password"
-            value={this.state.password}
-            id="password"
-            name="password"
-            placeholder="Password"
-            onChange={e => this.handleChange(e)}
-            required
-          />
-          <input className="" type="submit" value="Submit" />
-      </form>
-    );
+
+  const handleSubmit = async event => {
+
+    if (event) {
+      event.preventDefault();
+
+      try {
+
+        const newUser = await Auth.signUp({
+  
+          username: email,
+          password: password,
+          attributes: {
+            name, // optional - E.164 number convention
+          },
+        });
+        setNewUser({
+          newUser
+        });
+
+        renderConfirmationForm();
+
+      } catch (e) {
+        alert(e.message);
+      }
+
+      }
+
   }
 
-  render() {
-    return (
-      <div className="Signup">
-        {this.state.newUser === null
-          ? this.renderForm()
-          : this.renderConfirmationForm()}
+  return (
+    <Container component="main" maxWidth="xs">
+    {isValidated ? <Redirect to="/" /> : null}
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete="name"
+                name="name"
+                variant="outlined"
+                required
+                fullWidth
+                id="name"
+                label="Name"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+                autoFocus
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign Up
+          </Button>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Link href="/" variant="body2">
+                Already have an account? Sign in
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
       </div>
-    );
-  }
+      <Box mt={5}>
+        <Copyright />
+      </Box>
+    </Container>
+  );
 }

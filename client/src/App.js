@@ -4,8 +4,6 @@ import { Auth } from "aws-amplify";
 
 
 import Routes from "./routes";
-import Landing from "./components/landing"
-import Main from "./components/main-container"
 
 import './css/App.css';
 
@@ -55,7 +53,7 @@ class App extends Component {
     
       return (
         !this.state.isAuthenticating &&
-        <Container maxWidth="lg" className="app">
+        <div className="app">
           {/* <div>
             <Switch>
                 {this.state.isAuthenticated
@@ -76,7 +74,7 @@ class App extends Component {
             </div> */}
 
           <Routes childProps={childProps} />
-        </Container>
+        </div>
       );
     }
   }

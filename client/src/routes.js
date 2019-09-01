@@ -12,9 +12,11 @@ export default ({ childProps }) =>
     
   <Switch>
     <AppliedRoute path="/" exact component={Landing} props={childProps} />
+    <AppliedRoute path="/login" exact component={Landing} props={childProps} />
     <AppliedRoute path="/main" exact component={Main} props={childProps} />
     <AppliedRoute path="/register" exact component={Register} props={childProps} />
     <AppliedRoute path="/habits/new" exact component={NewHabit} props={childProps} />
+    <AppliedRoute path="/error" exact component={Error} props={childProps} />
 
    <Route component={Error} />
   </Switch>;
